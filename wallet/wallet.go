@@ -7,6 +7,7 @@ import (
 	"crypto/sha256"
 	"encoding/json"
 	"fmt"
+	"log"
 
 	"github.com/btcsuite/btcutil/base58"
 	"github.com/holmen1/holmcoin/utils"
@@ -55,6 +56,7 @@ func NewWallet() *Wallet {
 	// 9. Convert the result from a byte string into base58.
 	address := base58.Encode(dc8)
 	w.blockchainAddress = address
+	log.Printf("action=new wallet, address=%s\n", w.blockchainAddress)
 	return w
 }
 

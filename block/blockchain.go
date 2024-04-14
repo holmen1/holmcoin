@@ -15,7 +15,7 @@ import (
 const (
 	MINING_DIFFICULTY = 3
 	MINING_SENDER     = "THE BLOCKCHAIN"
-	MINING_REWARD     = 1.0
+	MINING_REWARD     = 0.1
 )
 
 type Block struct {
@@ -102,6 +102,7 @@ func (bc *Blockchain) AddTransaction(sender string, recipient string, value floa
 
 	if sender == MINING_SENDER {
 		bc.transactionPool = append(bc.transactionPool, t)
+		log.Printf("action=add transaction, sender=%s, recipient=%s, value=%f\n", sender, recipient, value)
 		return true
 	}
 
@@ -113,6 +114,7 @@ func (bc *Blockchain) AddTransaction(sender string, recipient string, value floa
 			}
 		*/
 		bc.transactionPool = append(bc.transactionPool, t)
+		log.Printf("action=add transaction, sender=%s, recipient=%s, value=%f\n", sender, recipient, value)
 		return true
 	} else {
 		log.Println("ERROR: Verify Transaction")
@@ -157,11 +159,12 @@ func (bc *Blockchain) ProofOfWork() int {
 }
 
 func (bc *Blockchain) Mining() bool {
+	log.Printf("action=mining\n")
 	bc.AddTransaction(MINING_SENDER, bc.blockchainAddress, MINING_REWARD, nil, nil)
 	nonce := bc.ProofOfWork()
 	previousHash := bc.LastBlock().Hash()
 	bc.CreateBlock(nonce, previousHash)
-	log.Println("action=mining, status=success")
+	log.Printf("action=mining, success=%t\n", true)
 	return true
 }
 
